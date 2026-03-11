@@ -11,9 +11,16 @@ from google.genai import types
 # ==========================================
 # 核心設定與 UI 初始化
 # ==========================================
-st.set_page_config(page_title="釣魚信件緩衝分析器 V2", layout="wide", page_icon="🛡️")
+# 💡 修復 1：加入 initial_sidebar_state="expanded" 強制預設展開側邊欄
+st.set_page_config(
+    page_title="釣魚信件緩衝分析器 V2", 
+    layout="wide", 
+    page_icon="🛡️",
+    initial_sidebar_state="expanded" 
+)
 
-hide_streamlit_style = "<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;} header {visibility: hidden;}</style>"
+# 💡 修復 2：拿掉 header 隱藏設定，保留展開側邊欄的控制按鈕
+hide_streamlit_style = "<style>#MainMenu {visibility: hidden;} footer {visibility: hidden;}</style>"
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.title("🛡️ 進階社交工程與釣魚訊息緩衝分析器")
@@ -133,7 +140,7 @@ with tab2:
     if uploaded_file: st.image(Image.open(uploaded_file), width=300)
 
 if st.button("🚀 開始深度分析", type="primary", use_container_width=True):
-    if not gemini_api_key: st.error("⚠️ 請先輸入 Google Gemini API Key。")
+    if not gemini_api_key: st.error("⚠️ 請先於左側邊欄輸入 Google Gemini API Key。")
     elif not user_input_text.strip() and not uploaded_file: st.warning("⚠️ 請輸入文字或上傳圖片。")
     else:
         with st.spinner("系統深度分析中（包含 SharePoint 真偽驗證）..."):
